@@ -1,5 +1,6 @@
-import auth.Root;
+import auth.TokenListResponse;
 import city.CityListResponse;
+import city.CityResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -23,26 +24,21 @@ public class RootTest {
         authHeaders.setContentType(MediaType.APPLICATION_JSON);
         authHeaders.set("login", LOGIN);
         authHeaders.set("password", PASSWORD);
-        ResponseEntity<Root> authResponse = new RestTemplate()
-                .exchange(new URI(URL_GET_TOKEN), HttpMethod.GET, new HttpEntity<>("", authHeaders), Root.class);
+        ResponseEntity<TokenListResponse> authResponse = new RestTemplate()
+                .exchange(new URI(URL_GET_TOKEN), HttpMethod.GET, new HttpEntity<>("", authHeaders), TokenListResponse.class);
         String token = authResponse.getBody().getResponse().getAccessToken();
         System.out.println("get list city by token");
-
-
         HttpHeaders cityListHeaders = new HttpHeaders();
         cityListHeaders.setContentType(MediaType.APPLICATION_JSON);
         cityListHeaders.set("token", token);
         System.out.println("token:" + token);
-
         ResponseEntity<CityListResponse> rateResponse =
                 new RestTemplate().exchange(URL_GET_LIST_CITY,
                         HttpMethod.GET, null, new ParameterizedTypeReference<CityListResponse>() {
                         });
         CityListResponse cityListResponse = rateResponse.getBody();
-
-        ArrayList<city.Response> response = cityListResponse.getCityResponse();
+        ArrayList<CityResponse> response = cityListResponse.getCityResponse();
         System.out.println("city list:" + response.toString());
-
         Assert.assertEquals(response.size(), 3);
     }
 }
