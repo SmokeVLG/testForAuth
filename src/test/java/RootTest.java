@@ -27,18 +27,18 @@ public class RootTest {
         ResponseEntity<TokenListResponse> authResponse = new RestTemplate()
                 .exchange(new URI(URL_GET_TOKEN), HttpMethod.GET, new HttpEntity<>("", authHeaders), TokenListResponse.class);
         String token = authResponse.getBody().getResponse().getAccessToken();
-        System.out.println("get list city by token");
         HttpHeaders cityListHeaders = new HttpHeaders();
         cityListHeaders.setContentType(MediaType.APPLICATION_JSON);
         cityListHeaders.set("token", token);
-        System.out.println("token:" + token);
+        System.out.println("    token:" + token);
+        System.out.println("get list city by token");
         ResponseEntity<CityListResponse> rateResponse =
                 new RestTemplate().exchange(URL_GET_LIST_CITY,
                         HttpMethod.GET, null, new ParameterizedTypeReference<CityListResponse>() {
                         });
         CityListResponse cityListResponse = rateResponse.getBody();
         ArrayList<CityResponse> response = cityListResponse.getCityResponse();
-        System.out.println("city list:" + response.toString());
+        System.out.println("    city list: \n" + response.toString());
         Assert.assertEquals(response.size(), 3);
     }
 }
