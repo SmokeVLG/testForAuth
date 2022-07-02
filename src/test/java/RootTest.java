@@ -18,7 +18,7 @@ public class RootTest {
     public static final String PASSWORD = "12345678";
 
     @Test
-    public void test1() throws URISyntaxException {
+    public void testGetListCity() throws URISyntaxException {
         System.out.println("get token by login and password");
         HttpHeaders authHeaders = new HttpHeaders();
         authHeaders.setContentType(MediaType.APPLICATION_JSON);
